@@ -1,0 +1,4 @@
+{
+  "http://localhost:3001/remote-components/bundle.js": { "integrity": "sha512-GOqk90QV1y+sPbDyQ05W2ZwMpsB3zYqEd3wmHcXka7Vo213jBH/lzKa7Bf0DtXVQuKyxoICFZ5dF2qVHU4kHdg==", "contentType": "application/javascript; charset=UTF-8" },
+  "version": 1
+}
