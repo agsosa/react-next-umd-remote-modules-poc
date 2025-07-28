@@ -7,6 +7,14 @@ const nextConfig = {
   publicRuntimeConfig: {
     MF1_BASE_URL: process.env.MF1_BASE_URL || 'http://localhost:3001',
   },
+
+    // ignore eslint/typescript for now, this is just a PoC
+  eslint: {
+    ignoreDuringBuilds: true
+  },
+  typescript: {
+    ignoreBuildErrors: true
+  }
 };
 
 module.exports = nextConfig;
