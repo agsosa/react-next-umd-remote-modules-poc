@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import type { HeaderProps } from '../types/remote-components';
+import { useEffect } from "react";
 
 const HeaderContainer = styled.header`
   background-color: #2563eb;
@@ -43,16 +45,13 @@ const NavLink = styled.li`
   }
 `;
 
-interface HeaderProps {
-  appName: string;
-  currentPath?: string;
-  navigate?: (path: string) => void;
-  query?: Record<string, string>;
-}
+const Header = ({ appName, router, onMount }: HeaderProps) => {
+  console.log("Router object:", router);
 
-const Header = ({ appName, currentPath, navigate, query }: HeaderProps) => {
-  console.log("Current route:", currentPath);
-  console.log("Query params:", query);
+  useEffect(() => {
+    if (onMount)
+      onMount();
+  }, [])
 
   return (
     <HeaderContainer>
@@ -63,12 +62,12 @@ const Header = ({ appName, currentPath, navigate, query }: HeaderProps) => {
             <a
               href="/"
               onClick={(e) => {
-                if (navigate) {
+                if (router?.push) {
                   e.preventDefault();
-                  navigate("/");
+                  router.push("/");
                 }
               }}
-              style={{ fontWeight: currentPath === "/" || currentPath === "/orders" || currentPath?.startsWith("/orders/") ? "bold" : "normal" }}
+              style={{ fontWeight: router?.pathname === "/" || router?.pathname === "/orders" || router?.pathname?.startsWith("/orders/") ? "bold" : "normal" }}
             >
               Orders
             </a>
@@ -77,13 +76,13 @@ const Header = ({ appName, currentPath, navigate, query }: HeaderProps) => {
             <a
               href="/fulfilment"
               onClick={(e) => {
-                if (navigate) {
+                if (router?.push) {
                   e.preventDefault();
-                  navigate("/fulfilment");
+                  router.push("/fulfilment");
                 }
               }}
               style={{
-                fontWeight: currentPath === "/fulfilment" ? "bold" : "normal",
+                fontWeight: router?.pathname === "/fulfilment" ? "bold" : "normal",
               }}
             >
               Fulfilment

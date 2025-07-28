@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { mockOrders, getStatusColor, getStatusLabel, Order } from '../data/orders';
+import type { FulfilmentProps } from '../types/remote-components';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -150,10 +151,6 @@ const PriorityTag = styled.span<{ priority: 'high' | 'medium' | 'low' }>`
   }}
 `;
 
-interface FulfilmentProps {
-  onFulfil?: (orderId: string) => void;
-  onTrack?: (orderId: string) => void;
-}
 
 const Fulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
   const [selectedStatus, setSelectedStatus] = useState<'processing' | 'shipped'>('processing');
@@ -196,18 +193,51 @@ const Fulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
   };
 
   const handleFulfil = (orderId: string) => {
-    if (onFulfil) {
-      onFulfil(orderId);
-    } else {
-      console.log('Fulfilling order:', orderId);
+    // Simular el proceso de envío
+    const order = mockOrders.find(o => o.id === orderId);
+    if (order && order.status === 'processing') {
+      console.log(`🚚 Enviando orden ${order.orderNumber} a ${order.shippingAddress.city}`);
+      
+      // Simular cambio de estado (en una app real, esto sería una llamada API)
+      setTimeout(() => {
+        console.log(`✅ Orden ${order.orderNumber} marcada como enviada`);
+        alert(`Orden ${order.orderNumber} enviada exitosamente a ${order.customerName}`);
+        
+        // Notificar al shell si hay callback
+        if (onFulfil) {
+          onFulfil(orderId);
+        }
+      }, 1000);
     }
   };
 
   const handleTrack = (orderId: string) => {
-    if (onTrack) {
-      onTrack(orderId);
-    } else {
-      console.log('Tracking order:', orderId);
+    // Simular tracking de órdenes enviadas
+    const order = mockOrders.find(o => o.id === orderId);
+    if (order && order.status === 'shipped') {
+      console.log(`📦 Rastreando orden ${order.orderNumber}`);
+      
+      // Generar número de tracking simulado
+      const trackingNumber = `TRK${Date.now().toString().slice(-6)}`;
+      const estimatedDelivery = new Date();
+      estimatedDelivery.setDate(estimatedDelivery.getDate() + 2);
+      
+      setTimeout(() => {
+        const trackingInfo = {
+          trackingNumber,
+          status: 'En tránsito',
+          location: 'Centro de distribución Madrid',
+          estimatedDelivery: estimatedDelivery.toLocaleDateString('es-ES')
+        };
+        
+        console.log('📋 Información de tracking:', trackingInfo);
+        alert(`Tracking: ${trackingNumber}\nEstado: ${trackingInfo.status}\nUbicación: ${trackingInfo.location}\nEntrega estimada: ${trackingInfo.estimatedDelivery}`);
+        
+        // Notificar al shell si hay callback
+        if (onTrack) {
+          onTrack(orderId);
+        }
+      }, 800);
     }
   };
 

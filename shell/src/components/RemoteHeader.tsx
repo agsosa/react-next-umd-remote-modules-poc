@@ -1,42 +1,35 @@
-import React, { useEffect, useState } from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
 import { useRouter } from "next/router";
+import { useRemoteModule } from "../hooks/useRemoteModule";
+import type { HeaderProps } from "../types/mf1-remote-components";
 
 const RemoteHeader = () => {
-  const [Component, setComponent] = useState<React.FC | null>(null);
   const router = useRouter();
+  
+  const { component: Header, loading, error } = useRemoteModule<HeaderProps>({
+    url: 'http://localhost:3001/remote-modules/bundle.js',
+    moduleName: 'MF1_RemoteModules',
+    componentName: 'Header'
+  });
 
-  useEffect(() => {
-    (window as any).React = React;
-    (window as any).ReactDOM = ReactDOM;
+  if (loading) return <p>Loading...</p>;
+  
+  if (error) {
+    console.error("Error loading remote header:", error);
+    return <p>Error loading header</p>;
+  }
 
-    const script = document.createElement("script");
-    script.src = "http://localhost:3001/remote-modules/bundle.js";
-    script.onload = () => {
-      const remoteModule = (window as any).MF1_RemoteModules;
-      if (remoteModule) {
-        setComponent(() => remoteModule.Header);
-      }
-    };
-    script.onerror = (err) => {
-      console.error("Error loading remote module", err);
-    };
+  if (!Header) return <p>Header component not found</p>;
 
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  if (!Component) return <p>Loading...</p>;
+  const handleMount = () => {
+    console.log("Shell App: El header remoto montó en la app!")
+  }
 
   return (
-    <Component 
+    <Header 
       appName="Shell App"
-      currentPath={router.pathname}
-      navigate={router.push}
-      query={router.query}
+      router={router}
+      onMount={handleMount}
     />
   );
 };
