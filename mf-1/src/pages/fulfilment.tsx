@@ -8,27 +8,27 @@ const Container = styled.div`
   background-color: #f9fafb;
 `;
 
-export default function Home() {
+export default function FulfilmentPage() {
   const handleFulfil = (orderId: string) => {
-    console.log('🏭 MF1 App: Orden procesada internamente:', orderId);
-    alert(`MF1: Orden ${orderId} marcada como enviada desde la app standalone`);
+    console.log('🏭 MF1 Fulfilment Page: Orden procesada:', orderId);
+    alert(`MF1 Fulfilment: Orden ${orderId} enviada desde página dedicada`);
   };
 
   const handleTrack = (orderId: string) => {
-    console.log('🔍 MF1 App: Tracking solicitado internamente:', orderId);
-    alert(`MF1: Mostrando tracking para orden ${orderId} desde la app standalone`);
+    console.log('🔍 MF1 Fulfilment Page: Tracking solicitado:', orderId);
+    alert(`MF1 Fulfilment: Tracking para orden ${orderId} desde página dedicada`);
   };
 
   return (
     <>
       <Head>
-        <title>MF1 - Fulfilment App</title>
-        <meta name="description" content="Aplicación de gestión de fulfilment" />
+        <title>MF1 - Fulfilment Center</title>
+        <meta name="description" content="Centro de procesamiento y envío" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Header appName="MF1 - Fulfilment App" />
+        <Header appName="MF1 - Fulfilment Center" />
         <Fulfilment 
           onFulfil={handleFulfil}
           onTrack={handleTrack}

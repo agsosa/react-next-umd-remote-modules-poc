@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { getOrderById, getStatusColor, getStatusLabel } from '../../data/orders';
 import RemoteHeader from '../../components/RemoteHeader';
+import RemoteFulfilmentDetails from '../../components/RemoteFulfilmentDetails';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -178,6 +180,33 @@ const Address = styled.div`
   }
 `;
 
+const TabsContainer = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const TabsList = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+const TabButton = styled.button<{ active: boolean }>`
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: ${props => props.active ? '#2563eb' : '#f3f4f6'};
+  color: ${props => props.active ? 'white' : '#6b7280'};
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+
+  &:hover {
+    background: ${props => props.active ? '#1d4ed8' : '#e5e7eb'};
+    color: ${props => props.active ? 'white' : '#374151'};
+  }
+`;
+
 const NotFound = styled.div`
   text-align: center;
   padding: 4rem 2rem;
@@ -197,6 +226,7 @@ const NotFound = styled.div`
 const OrderDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [activeTab, setActiveTab] = useState<'details' | 'fulfilment'>('details');
   
   const order = id ? getOrderById(id as string) : null;
 
@@ -215,6 +245,26 @@ const OrderDetailPage = () => {
       style: 'currency',
       currency: 'EUR'
     }).format(amount);
+  };
+
+  const handleStatusChange = (orderId: string, newStatus: string, trackingInfo?: any) => {
+    console.log('🏢 Shell App: Estado de orden actualizado:', {
+      orderId,
+      newStatus,
+      trackingInfo
+    });
+    
+    // Aquí el shell podría:
+    // 1. Actualizar su estado local
+    // 2. Sincronizar con base de datos
+    // 3. Enviar notificaciones
+    // 4. Actualizar métricas
+    // 5. Trigger workflows adicionales
+    
+    if (newStatus === 'shipped' && trackingInfo) {
+      console.log('📧 Shell App: Enviando notificación de envío al cliente');
+      console.log('📊 Shell App: Actualizando métricas de fulfilment');
+    }
   };
 
   if (!order) {
@@ -243,7 +293,26 @@ const OrderDetailPage = () => {
         </BackButton>
         
         <PageTitle>Detalle de Orden</PageTitle>
-        
+
+        <TabsContainer>
+          <TabsList>
+            <TabButton 
+              active={activeTab === 'details'} 
+              onClick={() => setActiveTab('details')}
+            >
+              📋 Detalle de Orden
+            </TabButton>
+            <TabButton 
+              active={activeTab === 'fulfilment'} 
+              onClick={() => setActiveTab('fulfilment')}
+            >
+              📦 Fulfilment
+            </TabButton>
+          </TabsList>
+        </TabsContainer>
+
+        {activeTab === 'details' ? (
+          <>
         <OrderHeader>
           <OrderHeaderTop>
             <OrderNumber>{order.orderNumber}</OrderNumber>
@@ -336,6 +405,13 @@ const OrderDetailPage = () => {
             <p>{order.shippingAddress.country}</p>
           </Address>
         </Section>
+          </>
+        ) : (
+          <RemoteFulfilmentDetails 
+            orderId={order.id}
+            onStatusChange={handleStatusChange}
+          />
+        )}
       </Content>
     </Container>
   );

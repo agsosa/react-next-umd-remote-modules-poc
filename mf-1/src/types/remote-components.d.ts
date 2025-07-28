@@ -11,9 +11,15 @@ export interface FulfilmentProps {
   onTrack?: (orderId: string) => void;
 }
 
+export interface FulfilmentDetailsProps {
+  orderId: string;
+  onStatusChange?: (orderId: string, newStatus: string, trackingInfo?: any) => void;
+}
+
 export interface MF1_RemoteComponents {
   Header: React.ComponentType<HeaderProps>;
   Fulfilment: React.ComponentType<FulfilmentProps>;
+  FulfilmentDetails: React.ComponentType<FulfilmentDetailsProps>;
 }
 
 declare global {
