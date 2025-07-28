@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:next\" \"npm run dev:vite\" --names \"NEXT,MF\" --prefix-colors \"blue,green\"",
     "dev:next": "next dev -p 3001",
-    "build": "next build",
+    "build": "npm run build:vite && next build",
     "start": "next start",
     "lint": "next lint",
     "build:vite": "vite build --config vite.mf.ts",
