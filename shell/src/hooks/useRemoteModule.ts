@@ -24,9 +24,9 @@ export const useRemoteModule = <T = any>({ url, moduleName, componentName }: Use
         (window as any).ReactDOM = ReactDOM;
 
         // Verificar si el módulo ya está cargado
-        const existingModule = (window as any)[moduleName];
-        if (existingModule?.[componentName]) {
-          setComponent(() => existingModule[componentName]);
+        const existingRemoteModule = (window as any)[moduleName];
+        if (existingRemoteModule?.[componentName]) {
+          setComponent(() => existingRemoteModule[componentName]);
           setLoading(false);
           return;
         }
@@ -42,9 +42,9 @@ export const useRemoteModule = <T = any>({ url, moduleName, componentName }: Use
         // Verificar si el script ya está cargado
         if (loadedScripts.has(url)) {
           // Script ya cargado, verificar módulo
-          const module = (window as any)[moduleName];
-          if (module?.[componentName]) {
-            const comp = module[componentName];
+          const remoteModule = (window as any)[moduleName];
+          if (remoteModule?.[componentName]) {
+            const comp = remoteModule[componentName];
             moduleCache.set(cacheKey, comp);
             setComponent(() => comp);
           } else {
@@ -59,9 +59,9 @@ export const useRemoteModule = <T = any>({ url, moduleName, componentName }: Use
         if (existingScript) {
           // Script existe pero aún no ha cargado, esperar a que cargue
           existingScript.addEventListener('load', () => {
-            const module = (window as any)[moduleName];
-            if (module?.[componentName]) {
-              const comp = module[componentName];
+            const remoteModule = (window as any)[moduleName];
+            if (remoteModule?.[componentName]) {
+              const comp = remoteModule[componentName];
               moduleCache.set(cacheKey, comp);
               setComponent(() => comp);
             } else {
@@ -78,10 +78,10 @@ export const useRemoteModule = <T = any>({ url, moduleName, componentName }: Use
         
         script.onload = () => {
           loadedScripts.add(url);
-          const module = (window as any)[moduleName];
+          const remoteModule = (window as any)[moduleName];
           
-          if (module?.[componentName]) {
-            const comp = module[componentName];
+          if (remoteModule?.[componentName]) {
+            const comp = remoteModule[componentName];
             moduleCache.set(cacheKey, comp);
             setComponent(() => comp);
           } else {

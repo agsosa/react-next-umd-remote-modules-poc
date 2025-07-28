@@ -154,8 +154,9 @@ const PriorityTag = styled.span<{ priority: 'high' | 'medium' | 'low' }>`
 
 const Fulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
   const [selectedStatus, setSelectedStatus] = useState<'processing' | 'shipped'>('processing');
+  const [orders, setOrders] = useState(mockOrders);
 
-  const fulfilmentOrders = mockOrders.filter(order => 
+  const fulfilmentOrders = orders.filter(order => 
     order.status === 'processing' || order.status === 'shipped'
   );
 
@@ -193,13 +194,22 @@ const Fulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
   };
 
   const handleFulfil = (orderId: string) => {
-    // Simular el proceso de envío
-    const order = mockOrders.find(o => o.id === orderId);
+    // Encontrar la orden en el estado local
+    const order = orders.find(o => o.id === orderId);
     if (order && order.status === 'processing') {
       console.log(`🚚 Enviando orden ${order.orderNumber} a ${order.shippingAddress.city}`);
       
       // Simular cambio de estado (en una app real, esto sería una llamada API)
       setTimeout(() => {
+        // Actualizar el estado local para cambiar la orden a 'shipped'
+        setOrders(prevOrders => 
+          prevOrders.map(o => 
+            o.id === orderId 
+              ? { ...o, status: 'shipped' as const, updatedAt: new Date().toISOString() }
+              : o
+          )
+        );
+        
         console.log(`✅ Orden ${order.orderNumber} marcada como enviada`);
         alert(`Orden ${order.orderNumber} enviada exitosamente a ${order.customerName}`);
         
@@ -213,7 +223,7 @@ const Fulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
 
   const handleTrack = (orderId: string) => {
     // Simular tracking de órdenes enviadas
-    const order = mockOrders.find(o => o.id === orderId);
+    const order = orders.find(o => o.id === orderId);
     if (order && order.status === 'shipped') {
       console.log(`📦 Rastreando orden ${order.orderNumber}`);
       

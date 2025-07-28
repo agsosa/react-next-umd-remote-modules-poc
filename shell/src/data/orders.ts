@@ -153,6 +153,133 @@ export const mockOrders: Order[] = [
       zipCode: '48001',
       country: 'España'
     }
+  },
+  {
+    id: '6',
+    orderNumber: 'ORD-2025-006',
+    customerId: 'cust-006',
+    customerName: 'Elena González',
+    customerEmail: 'elena.gonzalez@email.com',
+    status: 'processing',
+    items: [
+      { id: 'item-11', name: 'Cámara Digital 4K', quantity: 1, price: 899.99 },
+      { id: 'item-12', name: 'Tarjeta SD 128GB', quantity: 1, price: 45.99 },
+      { id: 'item-13', name: 'Trípode Profesional', quantity: 1, price: 89.99 }
+    ],
+    subtotal: 1035.97,
+    tax: 82.88,
+    shipping: 12.00,
+    total: 1130.85,
+    createdAt: '2025-01-17T08:15:00Z',
+    updatedAt: '2025-01-17T08:15:00Z',
+    shippingAddress: {
+      street: 'Avenida de la Constitución 88',
+      city: 'Zaragoza',
+      state: 'Aragón',
+      zipCode: '50001',
+      country: 'España'
+    }
+  },
+  {
+    id: '7',
+    orderNumber: 'ORD-2025-007',
+    customerId: 'cust-007',
+    customerName: 'Roberto Silva',
+    customerEmail: 'roberto.silva@email.com',
+    status: 'processing',
+    items: [
+      { id: 'item-14', name: 'Monitor Gaming 27"', quantity: 1, price: 349.99 },
+      { id: 'item-15', name: 'Teclado Mecánico RGB', quantity: 1, price: 129.99 }
+    ],
+    subtotal: 479.98,
+    tax: 38.40,
+    shipping: 8.00,
+    total: 526.38,
+    createdAt: '2025-01-17T12:45:00Z',
+    updatedAt: '2025-01-17T12:45:00Z',
+    shippingAddress: {
+      street: 'Calle de la Paz 45',
+      city: 'Málaga',
+      state: 'Andalucía',
+      zipCode: '29001',
+      country: 'España'
+    }
+  },
+  {
+    id: '8',
+    orderNumber: 'ORD-2025-008',
+    customerId: 'cust-008',
+    customerName: 'Patricia Moreno',
+    customerEmail: 'patricia.moreno@email.com',
+    status: 'shipped',
+    items: [
+      { id: 'item-16', name: 'Impresora Láser Color', quantity: 1, price: 299.99 },
+      { id: 'item-17', name: 'Papel Premium A4', quantity: 3, price: 12.99 }
+    ],
+    subtotal: 338.96,
+    tax: 27.12,
+    shipping: 15.00,
+    total: 381.08,
+    createdAt: '2025-01-16T14:20:00Z',
+    updatedAt: '2025-01-17T10:30:00Z',
+    shippingAddress: {
+      street: 'Plaza Mayor 12',
+      city: 'Salamanca',
+      state: 'Castilla y León',
+      zipCode: '37001',
+      country: 'España'
+    }
+  },
+  {
+    id: '9',
+    orderNumber: 'ORD-2025-009',
+    customerId: 'cust-009',
+    customerName: 'Fernando Jiménez',
+    customerEmail: 'fernando.jimenez@email.com',
+    status: 'processing',
+    items: [
+      { id: 'item-18', name: 'SSD 1TB NVMe', quantity: 1, price: 119.99 },
+      { id: 'item-19', name: 'RAM 32GB DDR4', quantity: 1, price: 189.99 }
+    ],
+    subtotal: 309.98,
+    tax: 24.80,
+    shipping: 5.00,
+    total: 339.78,
+    createdAt: '2025-01-17T16:00:00Z',
+    updatedAt: '2025-01-17T16:00:00Z',
+    shippingAddress: {
+      street: 'Calle Real 78',
+      city: 'Santander',
+      state: 'Cantabria',
+      zipCode: '39001',
+      country: 'España'
+    }
+  },
+  {
+    id: '10',
+    orderNumber: 'ORD-2025-010',
+    customerId: 'cust-010',
+    customerName: 'Carmen Ruiz',  
+    customerEmail: 'carmen.ruiz@email.com',
+    status: 'shipped',
+    items: [
+      { id: 'item-20', name: 'Tablet Pro 12.9"', quantity: 1, price: 799.99 },
+      { id: 'item-21', name: 'Apple Pencil 2', quantity: 1, price: 129.99 },
+      { id: 'item-22', name: 'Funda Keyboard', quantity: 1, price: 179.99 }
+    ],
+    subtotal: 1109.97,
+    tax: 88.80,
+    shipping: 20.00,
+    total: 1218.77,
+    createdAt: '2025-01-16T11:30:00Z',
+    updatedAt: '2025-01-17T09:45:00Z',
+    shippingAddress: {
+      street: 'Gran Vía 125',
+      city: 'Granada',
+      state: 'Andalucía',
+      zipCode: '18001',
+      country: 'España'
+    }
   }
 ];
 

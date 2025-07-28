@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import type { HeaderProps } from '../types/remote-components';
+import type { HeaderProps } from "../types/remote-components";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const HeaderContainer = styled.header`
   background-color: #2563eb;
@@ -49,9 +50,8 @@ const Header = ({ appName, router, onMount }: HeaderProps) => {
   console.log("Router object:", router);
 
   useEffect(() => {
-    if (onMount)
-      onMount();
-  }, [])
+    if (onMount) onMount();
+  }, []);
 
   return (
     <HeaderContainer>
@@ -59,7 +59,7 @@ const Header = ({ appName, router, onMount }: HeaderProps) => {
         <Logo>{appName}</Logo>
         <NavLinks>
           <NavLink>
-            <a
+            <Link
               href="/"
               onClick={(e) => {
                 if (router?.push) {
@@ -67,10 +67,17 @@ const Header = ({ appName, router, onMount }: HeaderProps) => {
                   router.push("/");
                 }
               }}
-              style={{ fontWeight: router?.pathname === "/" || router?.pathname === "/orders" || router?.pathname?.startsWith("/orders/") ? "bold" : "normal" }}
+              style={{
+                fontWeight:
+                  router?.pathname === "/" ||
+                  router?.pathname === "/orders" ||
+                  router?.pathname?.startsWith("/orders/")
+                    ? "bold"
+                    : "normal",
+              }}
             >
               Orders
-            </a>
+            </Link>
           </NavLink>
           <NavLink>
             <a
@@ -82,7 +89,8 @@ const Header = ({ appName, router, onMount }: HeaderProps) => {
                 }
               }}
               style={{
-                fontWeight: router?.pathname === "/fulfilment" ? "bold" : "normal",
+                fontWeight:
+                  router?.pathname === "/fulfilment" ? "bold" : "normal",
               }}
             >
               Fulfilment
