@@ -68,41 +68,25 @@ const Header = ({ appName, currentPath, navigate, query }: HeaderProps) => {
                   navigate("/");
                 }
               }}
-              style={{ fontWeight: currentPath === "/" ? "bold" : "normal" }}
-            >
-              Home
-            </a>
-          </NavLink>
-          <NavLink>
-            <a
-              href="/orders"
-              onClick={(e) => {
-                if (navigate) {
-                  e.preventDefault();
-                  navigate("/orders");
-                }
-              }}
-              style={{
-                fontWeight: currentPath === "/orders" || currentPath?.startsWith("/orders/") ? "bold" : "normal",
-              }}
+              style={{ fontWeight: currentPath === "/" || currentPath === "/orders" || currentPath?.startsWith("/orders/") ? "bold" : "normal" }}
             >
               Orders
             </a>
           </NavLink>
           <NavLink>
             <a
-              href="/about"
+              href="/fulfilment"
               onClick={(e) => {
                 if (navigate) {
                   e.preventDefault();
-                  navigate("/about");
+                  navigate("/fulfilment");
                 }
               }}
               style={{
-                fontWeight: currentPath === "/about" ? "bold" : "normal",
+                fontWeight: currentPath === "/fulfilment" ? "bold" : "normal",
               }}
             >
-              About
+              Fulfilment
             </a>
           </NavLink>
         </NavLinks>

@@ -1,4 +1,4 @@
-(function(M,N){typeof exports=="object"&&typeof module<"u"?N(exports,require("react")):typeof define=="function"&&define.amd?define(["exports","react"],N):(M=typeof globalThis<"u"?globalThis:M||self,N(M.MF1_Remotes={},M.React))})(this,function(M,N){"use strict";var De={exports:{}},ne={};/**
+(function(M,N){typeof exports=="object"&&typeof module<"u"?N(exports,require("react")):typeof define=="function"&&define.amd?define(["exports","react"],N):(M=typeof globalThis<"u"?globalThis:M||self,N(M.MF1_RemoteModules={},M.React))})(this,function(M,N){"use strict";var De={exports:{}},ne={};/**
  * @license React
  * react-jsx-runtime.production.js
  *

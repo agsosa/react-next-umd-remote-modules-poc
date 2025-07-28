@@ -29,19 +29,19 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: "public/remote-components",
+      outDir: "public/remote-modules",
       cssCodeSplit: false,
       emptyOutDir: true,
       copyPublicDir: false,
       rollupOptions: {
-        input: "src/components/entry.ts",
+        input: "src/RemoteModules/RemoteModules.ts",
         preserveEntrySignatures: "strict",
         
         external: ["react", "react-dom"],
         output: {
           entryFileNames: "bundle.js",
           format: "umd",
-          name: "RemoteModule",
+          name: "MF1_RemoteModules", // DEBE SER UN NOMBRE UNICO. ESTO SE DEBE COORDINAR ENTRE EQUIPOS PARA NO PISARSE. PODRIA SER EL NOMBRE DE EQUIPO
           assetFileNames: ({ name }) =>
             name === "style.css" ? "web-components.css" : name || "asset",
           globals: {

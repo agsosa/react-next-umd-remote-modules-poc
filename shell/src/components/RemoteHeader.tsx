@@ -11,9 +11,9 @@ const RemoteHeader = () => {
     (window as any).ReactDOM = ReactDOM;
 
     const script = document.createElement("script");
-    script.src = "http://localhost:3001/remote-components/bundle.js";
+    script.src = "http://localhost:3001/remote-modules/bundle.js";
     script.onload = () => {
-      const remoteModule = (window as any).RemoteModule;
+      const remoteModule = (window as any).MF1_RemoteModules;
       if (remoteModule) {
         setComponent(() => remoteModule.Header);
       }
