@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRemoteModule } from '../hooks/useRemoteModule';
 import type { FulfilmentProps } from '../types/mf1-remote-components';
+import getConfig from 'next/config';
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -23,8 +24,10 @@ const ErrorContainer = styled.div`
 `;
 
 const RemoteFulfilment = ({ onFulfil, onTrack }: FulfilmentProps) => {
+  const { publicRuntimeConfig: { MF1_BASE_URL }} = getConfig();
+
   const { component: Fulfilment, loading, error } = useRemoteModule<FulfilmentProps>({
-    url: 'http://localhost:3001/remote-modules/bundle.js',
+    url: MF1_BASE_URL + '/remote-modules/bundle.js',
     moduleName: 'MF1_RemoteModules',
     componentName: 'Fulfilment'
   });
