@@ -16,27 +16,6 @@ This solution implements **UMD-based Microfrontends** (not Module Federation), w
 - **Remote Loading**: Components are loaded dynamically via script tags
 - **Dual Usage**: MF1 components work both as local components within MF1 and as remote components in Shell
 
-## 📁 Project Structure
-
-```
-react-next-ecmascript-remote-modules-poc/
-├── shell/                  # Next.js Shell Application
-│   ├── src/
-│   │   ├── components/     # Remote component wrappers
-│   │   ├── hooks/          # Reusable hooks (useRemoteModule)
-│   │   ├── pages/          # Application pages
-│   │   └── types/          # TypeScript definitions
-│   ├── next.config.js      # Next.js configuration
-│   └── .env.local          # Environment variables
-└── mf-1/                   # Next.js Microfrontend Application
-    ├── src/
-    │   ├── pages/          # Next.js pages (uses components locally)
-    │   ├── components/     # Regular Next.js components
-    │   └── RemoteModules/  # Components exported for remote consumption
-    ├── vite.mf.ts          # Vite config for UMD bundle generation
-    ├── next.config.js      # Next.js configuration
-    └── public/             # Static assets and compiled UMD bundles
-```
 
 ## 🚀 How It Works
 
@@ -96,37 +75,6 @@ When a remote component is loaded:
 3. **React Integration**: Components are treated as normal React components
 4. **Virtual DOM**: React renders them seamlessly into the shell's component tree
 
-## 🛠️ Available Components
-
-### Remote Components (from MF1)
-
-| Component | Purpose | Props |
-|-----------|---------|-------|
-| `Header` | Navigation header | `appName`, `router`, `onMount` |
-| `Fulfilment` | Order fulfillment operations | `onFulfil`, `onTrack` |
-| `FulfilmentDetails` | Detailed fulfillment view | `orderId`, `onStatusChange` |
-
-### Shell App Features
-
-- **Order Management System (OMS)**
-  - Order listing page
-  - Order detail view with tabs
-  - Integration with remote fulfillment components
-
-- **Remote Component Integration**
-  - Type-safe remote component loading
-  - Error handling and loading states
-  - Router context sharing
-
-## 🔧 Configuration
-
-### Environment Variables
-
-```bash
-# .env.local
-MF1_BASE_URL=http://localhost:3001
-```
-
 ## 🏃‍♂️ Development
 
 ### Starting the Applications
@@ -145,32 +93,11 @@ npm install
 npm run dev
 ```
 
-### URLs
+### Local URLs
 
 - **Shell App**: http://localhost:3000
 - **MF1 Standalone**: http://localhost:3001
 - **Remote Bundle**: http://localhost:3001/remote-modules/bundle.js (UMD bundle for Shell)
-
-## 🔍 Key Implementation Details
-
-### TypeScript Integration
-
-Remote component interfaces are shared via TypeScript definition files:
-
-```typescript
-// mf1-remote-components.d.ts
-export interface HeaderProps {
-  appName: string;
-  router?: NextRouter;
-  onMount?: () => void;
-}
-
-declare global {
-  interface Window {
-    MF1_RemoteModules: MF1_RemoteComponents;
-  }
-}
-```
 
 ### Router Context Sharing
 
@@ -189,10 +116,12 @@ The `useRemoteModule` hook implements:
 - **Component memoization**: Improves performance
 - **Error handling**: Graceful fallbacks
 
+The **mf-1** `next.config` also sets Cache-Control headers.
+
 ## ✅ Advantages of UMD based microfrontends
 
 - **Framework Agnostic**: UMD works with any JavaScript environment
-- **Simple Setup**: No complex build federation configuration
+- **Simple Setup**: No complex module-federation configuration. The shell app only needs a `<script>` tag.
 - **Standalone Development**: Each microfrontend can be developed independently
 - **Component Reusability**: Same components can be used locally and exposed remotely
 - **TypeScript Support**: Full type safety with shared interfaces
@@ -201,9 +130,8 @@ The `useRemoteModule` hook implements:
 ## ⚠️ Considerations
 
 - **Global Namespace**: Each microfrontend needs unique global names
-- **Manual Dependency Management**: External dependencies must be managed carefully (or can be bundled)
-- **Runtime Loading**: Components are loaded at runtime, not build time. No SSR.
-- **Browser Compatibility**: Requires modern browser features for dynamic imports
+- **Dependency Management**: External dependencies must be managed carefully
+- **Runtime Loading**: Components are loaded at runtime, not build time. SSR is not compatible.
 
 ---
 

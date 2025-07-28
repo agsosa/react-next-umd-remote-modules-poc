@@ -2,6 +2,7 @@ import styled from "styled-components";
 import type { HeaderProps } from "../types/remote-components";
 import { useEffect } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const HeaderContainer = styled.header`
   background-color: #2563eb;
@@ -23,6 +24,7 @@ const Logo = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0;
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 const NavLinks = styled.ul`
@@ -49,9 +51,25 @@ const NavLink = styled.li`
 const Header = ({ appName, router, onMount }: HeaderProps) => {
   console.log("Router object:", router);
 
+  console.log("onmount:", onMount);
+  useEffect(() => {
+    const testAxiosDependency = async () => {
+      try {
+        const { data } = await axios.get(
+          "https://microsoftedge.github.io/Demos/json-dummy-data/64KB-min.json"
+        );
+        console.log("Header fetched data with axios:", data);
+      } catch (err) {
+        console.log("Header faile to fetch data with axios", err);
+      }
+    };
+
+    testAxiosDependency();
+  }, []);
+
   useEffect(() => {
     if (onMount) onMount();
-  }, []);
+  }, [onMount]);
 
   return (
     <HeaderContainer>
