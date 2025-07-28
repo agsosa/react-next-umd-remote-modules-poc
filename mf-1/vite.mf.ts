@@ -1,9 +1,5 @@
-// Ejemplo mas optimizado
-// https://github.com/bmomberger-bitovi/web-components-example/blob/main/vite-build.mjs
-
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
-import { resolve } from "path";
 import typescript from "@rollup/plugin-typescript";
 
 export default defineConfig(({ mode }) => {
@@ -29,22 +25,21 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: "public/remote-modules",
+      outDir: "public/remote-modules", // Aprovechamos la carpeta /public de Next.js para servir nuestro bundle.js, pero podemos subirlo a cualquier otro lugar
       cssCodeSplit: false,
       emptyOutDir: true,
       copyPublicDir: false,
       rollupOptions: {
         input: "src/RemoteModules/RemoteModules.ts",
         preserveEntrySignatures: "strict",
-        
-        external: ["react", "react-dom"],
+        external: ["react", "react-dom"], // App shell debe proveer react/react-dom. Debemos coordinar mismas versiones. Tambien se podria incluir react en nuestro bundle.js pero no es lo mejor.
         output: {
           entryFileNames: "bundle.js",
           format: "umd",
           name: "MF1_RemoteModules", // DEBE SER UN NOMBRE UNICO. ESTO SE DEBE COORDINAR ENTRE EQUIPOS PARA NO PISARSE. PODRIA SER EL NOMBRE DE EQUIPO
           assetFileNames: ({ name }) =>
-            name === "style.css" ? "web-components.css" : name || "asset",
-          globals: {
+            name === "style.css" ? "web-components.css" : name || "asset", // No probado. No deberia ser necesario si no usamos archivos css y solo usamos styled-components.
+          globals: { // Leer comment en prop external
             react: "React",
             "react-dom": "ReactDOM",
           },
