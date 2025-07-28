@@ -4,6 +4,7 @@ const HeaderContainer = styled.header`
   background-color: #2563eb;
   color: white;
   padding: 1rem;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -42,20 +43,67 @@ const NavLink = styled.li`
   }
 `;
 
-const Header = ({ appName }: { appName: string }) => {
+interface HeaderProps {
+  appName: string;
+  currentPath?: string;
+  navigate?: (path: string) => void;
+  query?: Record<string, string>;
+}
+
+const Header = ({ appName, currentPath, navigate, query }: HeaderProps) => {
+  console.log("Current route:", currentPath);
+  console.log("Query params:", query);
+
   return (
     <HeaderContainer>
       <Nav>
         <Logo>{appName}</Logo>
         <NavLinks>
           <NavLink>
-            <a href="/">Home</a>
+            <a
+              href="/"
+              onClick={(e) => {
+                if (navigate) {
+                  e.preventDefault();
+                  navigate("/");
+                }
+              }}
+              style={{ fontWeight: currentPath === "/" ? "bold" : "normal" }}
+            >
+              Home
+            </a>
           </NavLink>
           <NavLink>
-            <a href="/about">About</a>
+            <a
+              href="/orders"
+              onClick={(e) => {
+                if (navigate) {
+                  e.preventDefault();
+                  navigate("/orders");
+                }
+              }}
+              style={{
+                fontWeight: currentPath === "/orders" || currentPath?.startsWith("/orders/") ? "bold" : "normal",
+              }}
+            >
+              Orders
+            </a>
           </NavLink>
           <NavLink>
-            <a href="/contact">Contact</a>
+            <a
+              href="/about"
+              onClick={(e) => {
+                if (navigate) {
+                  e.preventDefault();
+                  navigate("/about");
+                }
+              }}
+              style={{
+                fontWeight: currentPath === "/about" ? "bold" : "normal",
+              }}
+            >
+              About
+            </a>
           </NavLink>
         </NavLinks>
       </Nav>

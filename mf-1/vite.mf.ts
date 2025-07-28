@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
   // Esto carga las variables de entorno que comienzan con VITE_ o NEXT_PUBLIC_ y las reemplaza despues en el código
   // TODO: TENEMOS QUE BUSCAR UNA FORMA DE QUE SE PUEDAN INYECTAR LAS VARIABLES DE ENTORNO RUNTIME EN LOS PODS DE KUBERNETES. COMPILAR EN EL NPM START?
   const processEnvDefinitions = Object.entries(env).reduce(
-    (acc, [key, val]) => {
+    (acc: Record<string, string>, [key, val]) => {
       if (key.startsWith("VITE_") || key.startsWith("NEXT_PUBLIC_")) {
         acc[`process.env.${key}`] = JSON.stringify(val);
       }
@@ -20,9 +20,7 @@ export default defineConfig(({ mode }) => {
     },
     {}
   );
-
-  const entryFile = resolve("src/web-components/wc-definitions.ts");
-
+  
   return {
     plugins: [react(), typescript()],
     css: {
@@ -37,7 +35,8 @@ export default defineConfig(({ mode }) => {
       copyPublicDir: false,
       rollupOptions: {
         input: "src/components/entry.ts",
-        preserveEntrySignatures: "exports-only",
+        preserveEntrySignatures: "strict",
+        
         external: ["react", "react-dom"],
         output: {
           entryFileNames: "bundle.js",
@@ -55,17 +54,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@/*": "./src/*", // Se podria generar automaticamente sacando la info de tsconfig.json
-
-        // Polyfills opcionales, pero ayuda a evitar problemas con imports de Next.js
-        // El de getconfig podria permitirnos usar variables de entorno de la app shell desde el web component
-        /*  "next/config": resolve(
-          __dirname,
-          "src/components/web-components/getConfig_polyfill.ts"
-        ),
-        "next/image": resolve(
-          __dirname,
-          "src/components/web-components/next-image-polyfill.tsx"
-        ),*/
       },
     },
     define: {
